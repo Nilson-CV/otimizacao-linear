@@ -4,4 +4,3 @@ pandas
 matplotlib
 scipy
 fpdf
-base64
