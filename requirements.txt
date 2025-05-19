@@ -1,3 +1,7 @@
 streamlit
-scipy
+numpy
+pandas
 matplotlib
+scipy
+fpdf
+base64
