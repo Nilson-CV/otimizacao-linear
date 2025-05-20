@@ -1,9 +1,9 @@
 import streamlit as st
 
-st.set_page_config(page_title=" Programação Matemática", page_icon="💻")
+st.set_page_config(page_title=" Otimização não Linear", page_icon="💻")
 
 
-st.title("💻 Programação Matemática")
+st.title("💻 Otimização não Linear")
 st.write("""
 Modelagem e resolução de problemas de otimização linear e não linear.
 """)
