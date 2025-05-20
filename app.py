@@ -7,7 +7,7 @@ st.set_page_config(
     layout="centered",
 )
 
-st.title("🧮 Portal de Matemática Aplicada")
+st.title("🧮 Matemática + x = y ")
 st.markdown("""
 Bem-vindo ao aplicativo de apoio aos cursos da área de **Matemática Aplicada**.
 
@@ -16,7 +16,7 @@ Use o menu lateral para navegar entre os seguintes módulos:
 - 📘 Análise Matemática I  
 - 📗 Análise Matemática II  
 - 🔗 Teoria dos Grafos  
-- 📐 Programação Matemática  
+- 💻  Programação Matemática  
 
 ---
 
