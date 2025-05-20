@@ -50,4 +50,14 @@ if st.sidebar.button("💻 Programação Matemática"):
 if st.sidebar.button("🔗 Teoria dos Grafos"):
     st.session_state.pagina = "Teoria dos Grafos"
 
-
+# Conteúdo principal
+if st.session_state.pagina == "Início":
+    st.title("Bem-vindo")
+elif st.session_state.pagina == "AM1":
+    st.title("📘 Análise Matemática I")
+elif st.session_state.pagina == "Análise Matemática II":
+    st.title("📗 Análise Matemática II")
+elif st.session_state.pagina == "Programação Matemática":
+    st.title("💻 Programação Matemática")
+elif st.session_state.pagina == "🔗 Teoria dos Grafos":
+    st.title("🔗 Teoria dos Grafos")
