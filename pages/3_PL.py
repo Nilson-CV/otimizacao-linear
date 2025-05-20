@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 from scipy.optimize import linprog
 import base64
 
+st.set_page_config(page_title="Otimização Linear", page_icon="📈")
+
+
 
 st.set_page_config(layout="wide")
 

@@ -1,6 +1,9 @@
 import streamlit as st
 
-st.title("📐 Programação Matemática")
+st.set_page_config(page_title=" Programação Matemática", page_icon="💻")
+
+
+st.title("💻 Programação Matemática")
 st.write("""
 Modelagem e resolução de problemas de otimização linear e não linear.
 """)
