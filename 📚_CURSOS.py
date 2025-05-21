@@ -49,7 +49,7 @@ if "pagina" not in st.session_state:
 
 # Barra lateral com botões
 st.sidebar.title("📚 EXTRAS")
-if st.sidebar.button("🔺 Matlab $\hspace{1.2cm}$"):
+if st.sidebar.button("🔺 Matlab $\hspace{0.2cm}$"):
     st.session_state.pagina = "Matlab"
 if st.sidebar.button("🐍 Python $\hspace{0.2cm}$"):
     st.session_state.pagina = "Python"
