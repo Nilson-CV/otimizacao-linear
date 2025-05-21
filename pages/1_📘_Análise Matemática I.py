@@ -76,12 +76,9 @@ with tab1:
             base64_pdf = base64.b64encode(f.read()).decode('utf-8')
 
         # HTML para mostrar PDF
-        pdf_display = f"""
-        <iframe 
-        src="data:application/pdf;base64,{base64_pdf}" 
-        width="100%" height="700px" type="application/pdf">
-        </iframe>
-        """
+        pdf_display = f'''
+        <embed src="data:application/pdf;base64,{base64_pdf}" width="700" height="500" type="application/pdf">
+        '''
         st.markdown(pdf_display, unsafe_allow_html=True)
     except FileNotFoundError:
         st.error("❌ Arquivo PDF não encontrado. Verifique o caminho ou nome do arquivo.")
