@@ -11,6 +11,7 @@ st.set_page_config(page_title="Otimização Linear", page_icon="📈", layout="w
 inicio = st.columns(2)
 
 inicio[0] = st.title("📈 Otimização Linear")
+st.success("Este curso aborda os conceitos fundamentais de ...", icon="✅")
 inicio[1] = st.markdown("""
     <p style="font-size:16px;">
         📬 Para dúvidas ou sugestões, envie e-mail para 
@@ -30,10 +31,10 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-tab1, tab2, tab3, tab4 = st.tabs(["📘 Teoria", "📉 Solver", "🔢 Exercícios ", "🎥 Videos"])
+tab1, tab2, tab3, tab4 = st.tabs(["📘 Teoria", "🔢 Exercícios ", "📉 Solver", "🎥 Videos"])
 
 with tab1:
-    st.button("▶️ Ver vídeo explicativo")
+    st.markdown("### Fundamentos Teóricos")
     # Caminho para o arquivo PDF
     pdf_file = "teste.pdf"
 
@@ -50,14 +51,15 @@ with tab1:
         width="100%" height="700px" type="application/pdf">
         </iframe>
         """
-
-        st.markdown("### 📄 Visualização do Relatório PDF")
-        st.components.v1.html(pdf_display, height=700, scrolling=True)
-
+        st.markdown(pdf_display, unsafe_allow_html=True)
     except FileNotFoundError:
         st.error("❌ Arquivo PDF não encontrado. Verifique o caminho ou nome do arquivo.")
 
 with tab2:
+    st.subheader("Formulação Matemática")
+    # LaTeX..
+
+with tab3:
     st.header("📈 Solver Interativo - 2D")
 
     st.caption("Este solver resolve, caso seja possível, o seguinte problema:")
@@ -157,10 +159,6 @@ with tab2:
             st.download_button("📥 Baixar resultado (.csv)", csv, file_name="resultado_otimizacao.csv", mime="text/csv")
         else:
             st.error("Não foi possível encontrar uma solução ótima com os dados fornecidos.")
-with tab3:
-    st.subheader("Formulação Matemática")
-    # LaTeX...
-
 with tab4:
     st.subheader("Solução Ótima")
     # Resultado e download...
