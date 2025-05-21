@@ -49,11 +49,11 @@ if "pagina" not in st.session_state:
 
 # Barra lateral com botões
 st.sidebar.title("📚 EXTRAS")
-if st.sidebar.button("🔺 Matlab"):
+if st.sidebar.button("🔺 Matlab $\hspace{0.2cm}$"):
     st.session_state.pagina = "Matlab"
-if st.sidebar.button("🐍 Python"):
+if st.sidebar.button("🐍 Python $\hspace{0.2cm}$"):
     st.session_state.pagina = "Python"
-if st.sidebar.button("📊 R"):
+if st.sidebar.button("📊 R $\hspace{0.9cm}$"):
     st.session_state.pagina = "R"
 if st.sidebar.button("🌐 Streamlit"):
     st.session_state.pagina = "Streamlit"
@@ -64,7 +64,7 @@ if st.session_state.pagina == "Matlab":
 elif st.session_state.pagina == "Python":
     st.title("🐍 Python")
 elif st.session_state.pagina == "R":
-    st.title("📊 R")
+    st.title("📊 R ")
 elif st.session_state.pagina == "Streamlit":
     st.title("🌐 Streamlit")
 
