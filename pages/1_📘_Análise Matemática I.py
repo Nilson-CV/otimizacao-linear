@@ -1,6 +1,5 @@
 import streamlit as st
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.optimize import linprog
 import base64
@@ -76,17 +75,80 @@ with tab1:
             base64_pdf = base64.b64encode(f.read()).decode('utf-8')
 
         # HTML para mostrar PDF
-        pdf_display = f'''
-        <embed src="data:application/pdf;base64,{base64_pdf}" width="700" height="500" type="application/pdf">
-        '''
+        pdf_display = f"""
+        <iframe 
+        src="data:application/pdf;base64,{base64_pdf}" 
+        width="100%" height="700px" type="application/pdf">
+        </iframe>
+        """
         st.markdown(pdf_display, unsafe_allow_html=True)
     except FileNotFoundError:
         st.error("❌ Arquivo PDF não encontrado. Verifique o caminho ou nome do arquivo.")
+
 with tab2:
     st.markdown("### :blue[...]")
 
 with tab3:
-    st.markdown("### :blue[...]")
+    st.info("### Simulador de Integral de Riemann")
+    col1, col2 = st.columns([1.0, 1.5])
+    
+    with col1:
+        cols = st.columns(2)
+        # Entrada da função
+        func_input = cols[0].text_input(":blue[**Digite a função f(x):**]", value="x**2")
+        n = cols[1].slider(":blue[**Número de subdivisões (n):**]", min_value=1, max_value=100, value=10)
+
+        # Intervalo e número de subdivisões
+        cols1 = st.columns(2)
+        a = cols1[0].number_input(":blue[**Limite inferior (a):**]", value=0.0)
+        b = cols1[1].number_input(":blue[**Limite superior (b):**]", value=1.0)
+
+        
+        # Tipo de soma
+        tipo = st.radio(" :blue[**Tipo de soma de Riemann:**]", ["Esquerda", "Direita", "Ponto médio"])
+
+        # Define a função a partir da string usando eval (com segurança)
+        try:
+            f = lambda x: eval(func_input, {"x": x, "np": np, "__builtins__": {} })
+        except Exception as e:
+            st.error(f"Erro ao interpretar a função: {e}")
+            st.stop()
+
+        # Cálculo dos pontos e soma de Riemann
+        x = np.linspace(a, b, 1000)
+        dx = (b - a) / n
+
+        if tipo == "Esquerda":
+            xi = np.linspace(a, b - dx, n)
+            riemann_sum = np.sum(f(xi)) * dx
+        elif tipo == "Direita":
+            xi = np.linspace(a + dx, b, n)
+            riemann_sum = np.sum(f(xi)) * dx
+        elif tipo == "Ponto médio":
+            xi = np.linspace(a + dx/2, b - dx/2, n)
+            riemann_sum = np.sum(f(xi)) * dx
+        # Mostrar resultado
+        st.latex(f"\\int_{{{a}}}^{{{b}}} f(x)\\,dx \\approx {riemann_sum:.5f}")
+
+    with col2:
+        # Plot
+        fig, ax = plt.subplots()
+        x_plot = np.linspace(a, b, 1000)
+        ax.plot(x_plot, f(x_plot), label="f(x)", color="blue")
+
+        # Desenhar retângulos
+        for x0 in xi:
+            ax.add_patch(plt.Rectangle((x0, 0), dx, f(x0), edgecolor='black', facecolor='orange', alpha=0.5))
+
+        ax.set_xlim([a, b])
+        ax.set_ylim([0, max(f(xi)) * 1.1])
+        ax.set_xlabel("x")
+        ax.set_ylabel("f(x)")
+        ax.set_title("Aproximação pela soma de Riemann")
+        ax.grid(True)
+        ax.legend()
+
+        st.pyplot(fig)
 
 with tab4:
     st.markdown("### :blue[...]")
