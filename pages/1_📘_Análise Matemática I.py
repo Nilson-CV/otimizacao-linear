@@ -1,8 +1,9 @@
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import linprog
 import base64
+from scipy.integrate import quad
+
 
 st.set_page_config(page_title="Análise Matemática I", page_icon="📘", layout="wide")
 
@@ -152,3 +153,48 @@ with tab3:
 
 with tab4:
     st.markdown("### :blue[...]")
+
+
+    # Configuração inicial
+    st.set_page_config(page_title="📐 Cálculo de Integral", layout="centered")
+    st.title("🧮 Visualizador de Integrais com LaTeX")
+
+    # 📌 Seção de entrada
+    st.markdown("### 📝 Digite a função \( f(x) \), intervalo e pressione **Calcular**")
+
+    func_input = st.text_input("Função f(x):", value="x**2")
+    a = st.number_input("Limite inferior \( a \):", value=0.0, format="%.2f")
+    b = st.number_input("Limite superior \( b \):", value=1.0, format="%.2f")
+
+    # Botão de cálculo
+    if st.button("📊 Calcular Integral"):
+        try:
+            # Criar função segura a partir da entrada do usuário
+            f = lambda x: eval(func_input, {"x": x, "np": np, "__builtins__": {}})
+            
+            # Cálculo da integral
+            result, _ = quad(f, a, b)
+
+            # Exibir resultado em LaTeX grande
+            st.markdown(f"""
+            <div style='font-size: 32px; text-align: center; color: darkblue;'>
+                \( \int_{{{a}}}^{{{b}}} {func_input.replace('**', '^')} \, dx = {result:.5f} \)
+            </div>
+            """, unsafe_allow_html=True)
+
+            # Gráfico da função
+            x = np.linspace(a, b, 400)
+            y = f(x)
+
+            fig, ax = plt.subplots()
+            ax.plot(x, y, label=f"$f(x) = {func_input.replace('**', '^')}$", color='blue')
+            ax.fill_between(x, y, alpha=0.3, color='orange', label="Área sob a curva")
+            ax.axhline(0, color='black', linewidth=0.5)
+            ax.set_xlabel("x")
+            ax.set_ylabel("f(x)")
+            ax.legend()
+            st.pyplot(fig)
+
+        except Exception as e:
+            st.error(f"Erro ao interpretar a função: {e}")
+
