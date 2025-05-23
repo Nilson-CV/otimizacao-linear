@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import base64
 from scipy.integrate import quad
+from sympy import symbols, sympify, lambdify, latex
+from sympy.core.sympify import SympifyError
 
 
 st.set_page_config(page_title="Análise Matemática I", page_icon="📘", layout="wide")
@@ -87,7 +89,54 @@ with tab1:
         st.error("❌ Arquivo PDF não encontrado. Verifique o caminho ou nome do arquivo.")
 
 with tab2:
-    st.markdown("### :blue[...]")
+    st.title("🧮 Visualizador de Integrais com LaTeX e Validação")
+
+    st.markdown("### 📝 Digite a função \( f(x) \), intervalo de integração e clique em **Calcular**")
+
+    # Inputs do usuário
+    func_input = st.text_input("Função \( f(x) \):", value="x**2")
+    a = st.number_input("Limite inferior \( a \):", value=0.0)
+    b = st.number_input("Limite superior \( b \):", value=1.0)
+
+    x = symbols('x')
+
+    # Tentar interpretar a função usando sympy
+    try:
+        expr = sympify(func_input)
+        f = lambdify(x, expr, modules=["numpy"])
+
+        # Mostrar a função em LaTeX formatado
+        st.markdown(f"#### Função reconhecida:")
+        st.latex(f"f(x) = {latex(expr)}")
+
+        if st.button("📊 Calcular Integral"):
+            # Cálculo numérico com scipy
+            result, _ = quad(f, a, b)
+
+            # Mostrar integral formatada
+            st.markdown(f"""
+            <div style='font-size: 32px; text-align: center; color: darkblue;'>
+                \( \int_{{{a}}}^{{{b}}} {latex(expr)} \, dx = {result:.5f} \)
+            </div>
+            """, unsafe_allow_html=True)
+
+            # Gráfico
+            x_vals = np.linspace(a, b, 400)
+            y_vals = f(x_vals)
+
+            fig, ax = plt.subplots()
+            ax.plot(x_vals, y_vals, label=fr"$f(x) = {latex(expr)}$", color='blue')
+            ax.fill_between(x_vals, y_vals, alpha=0.3, color='orange', label="Área sob a curva")
+            ax.axhline(0, color='black', linewidth=0.5)
+            ax.set_xlabel("x")
+            ax.set_ylabel("f(x)")
+            ax.legend()
+            st.pyplot(fig)
+
+    except SympifyError:
+        st.error("❌ Erro: expressão inválida. Verifique a sintaxe de sua função.")
+    except Exception as e:
+        st.error(f"Erro inesperado: {e}")
 
 with tab3:
     st.info("### Simulador de Integral de Riemann")
@@ -156,7 +205,6 @@ with tab4:
 
 
     # Configuração inicial
-    st.set_page_config(page_title="📐 Cálculo de Integral", layout="centered")
     st.title("🧮 Visualizador de Integrais com LaTeX")
 
     # 📌 Seção de entrada
@@ -178,7 +226,7 @@ with tab4:
             # Exibir resultado em LaTeX grande
             st.markdown(f"""
             <div style='font-size: 32px; text-align: center; color: darkblue;'>
-                \( \int_{{{a}}}^{{{b}}} {func_input.replace('**', '^')} \, dx = {result:.5f} \)
+                \( \\int_{{{a}}}^{{{b}}} {func_input.replace('**', '^')} \, dx = {result:.5f} \)
             </div>
             """, unsafe_allow_html=True)
 
